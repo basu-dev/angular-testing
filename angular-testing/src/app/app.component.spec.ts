@@ -2,14 +2,18 @@ import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
-import { ServiceWorkerModule } from '@angular/service-worker';
+import { ServiceWorkerModule, SwPush, SwUpdate } from '@angular/service-worker';
+import { of } from 'rxjs';
 import { AppComponent } from './app.component';
 import { AppService } from './services/app.service';
 
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>,
     el: DebugElement,
-    app: AppComponent;
+    app: AppComponent,
+    swPush = jasmine.createSpyObj('SwPush', ['isEnabled', 'messages', 'requestSubscription']);
+  swPush.messages = of([]);
+
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [
@@ -20,7 +24,9 @@ describe('AppComponent', () => {
         ServiceWorkerModule
       ],
       providers: [
-        { provide: AppService, useValue: jasmine.createSpyObj('AppService', ['addSubscription', 'sendNotification']) }
+        { provide: AppService, useValue: jasmine.createSpyObj('AppService', ['addSubscription', 'sendNotification']) },
+        { provide: SwUpdate, useValue: jasmine.createSpyObj('SwUpdate', ['checkForUpdate', 'activateUpdate']) },
+        { provide: SwPush, useValue: swPush },
       ]
     }).compileComponents();
 
