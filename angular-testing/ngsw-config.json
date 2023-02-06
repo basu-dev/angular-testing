@@ -3,10 +3,11 @@
   "index": "/index.html",
   "dataGroups": [
     {
-      "name":"users-cache",
-      "urls":["http://127.0.0.1:3000/users"],
+      "name": "users-cache",
+      "urls": ["http://127.0.0.1:3000/users"],
       "cacheConfig": {
         "strategy": "freshness",
+        "timeout": "1d",
         "maxAge": "1d",
         "maxSize": 100
       }

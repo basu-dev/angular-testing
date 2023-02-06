@@ -1,17 +1,17 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { isDevMode, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppComponent } from './app.component';
-import {HttpClientModule} from "@angular/common/http";
+import { HttpClientModule } from "@angular/common/http";
 import { RouterModule, Routes } from '@angular/router';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { AppComponent } from './app.component';
 
-const routes:Routes=[
+const routes: Routes = [
   {
-    path:'',
-      loadChildren:()=>import('./users/users.module').then(m=>m.UsersModule)
-      }
-]
+    path: '',
+    loadChildren: () => import('./users/users.module').then(m => m.UsersModule)
+  }
+];
 
 @NgModule({
   declarations: [
@@ -32,7 +32,7 @@ const routes:Routes=[
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(){
+  constructor() {
     console.log(isDevMode());
   }
- }
+}
