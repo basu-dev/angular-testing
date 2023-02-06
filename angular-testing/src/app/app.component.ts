@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, isDevMode } from '@angular/core';
 import { SwPush, SwUpdate } from '@angular/service-worker';
 import { AppService } from './services/app.service';
 
@@ -23,8 +23,12 @@ export class AppComponent {
     if (!this.swUpdate.isEnabled) return;
     let updateAvailable = await this.swUpdate.checkForUpdate();
     if (!updateAvailable) return;
-    if (!confirm('There is an update available. Would you like to update you app to latest version?')) return;
-    this.swUpdate.activateUpdate().then(_ => location.reload());
+    if (isDevMode()) {
+      if (!confirm('There is an update available. Would you like to update you app to latest version?')) return;
+      this.swUpdate.activateUpdate().then(_ => location.reload());
+    } else {
+      this.swUpdate.activateUpdate().then(_ => location.reload());
+    }
   }
 
   async askForPushNotification() {
